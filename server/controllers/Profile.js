@@ -30,6 +30,8 @@ exports.updateProfile = async(req, res) => {
         profileDetails.contactNumber = contactNumber;
         profileDetails.about = about;
         profileDetails.gender = gender;
+
+        // Save the updated profile
         await profileDetails.save();
 
         //return response
@@ -51,10 +53,10 @@ exports.updateProfile = async(req, res) => {
 exports.deleteAccount = async(req, res) => {
     try {
         //get user id
-        const {id} = req.body;
+        const id = req.user.id;
 
         //validation
-        const userDetails = await User.findById(id);
+        const userDetails = await User.findById({_id: id});
         if(!userDetails) {
             return res.status(404).json({
                 success: false,
@@ -103,7 +105,9 @@ explore.getAllUserDetails = async(req, res) => {
         const {id} = req.body;
 
         //get user details
-        const userDetails = await User.findById({_id: id}).populate("additionalDetails").exec();
+        const userDetails = await User.findById({_id: id})
+                                        .populate("additionalDetails")
+                                        .exec();
         
         //validation
         if(!userDetails) {

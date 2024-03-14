@@ -29,10 +29,13 @@ exports.resetPasswordToken = async(req, res) => {
         const token = crypto.randomUUID();
 
         //update user by adding token & expiration time
-        const updatedDetails = await User.findOneAndUpdate({email: email},  {
-            token: token,
-            resetPasswordExpires: Date.now() + 5*60*1000,
-        }, {new: true});
+        const updatedDetails = await User.findOneAndUpdate(
+            {email: email},  
+            {
+                token: token,
+                resetPasswordExpires: Date.now() + 5*60*1000,
+            }, 
+            {new: true});
 
         //create url
         const url = `http://localhost:3000/update-password/${token}`
@@ -40,7 +43,8 @@ exports.resetPasswordToken = async(req, res) => {
         //send mail containing url
         await mailSender(email, 
                         "Password Reset Link", 
-                        `Password Reset Link: ${url}`);
+                        `Your Link for email verification is ${url}. Please click this url to reset your password.`);
+                        
         //return response
         return res.status(200).json({
             success: true,

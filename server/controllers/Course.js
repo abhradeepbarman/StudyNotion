@@ -10,7 +10,16 @@ exports.createCourse = async(req, res) => {
 		const userId = req.user.id;
 
         //data fetch
-        const {courseName, courseDescription, whatYouWillLearn, price, category, tag} = req.body;
+        const {
+			courseName,
+			courseDescription,
+			whatYouWillLearn,
+			price,
+			tag,
+			category,
+			status,
+			instructions,
+		} = req.body;
 
         //thumbnail fetch
         const thumbnail = req.files.thumbnailImage;
@@ -22,6 +31,10 @@ exports.createCourse = async(req, res) => {
                 message: "All fields are required, Please try again"
             })
         }
+
+        if (!status || status === undefined) {
+			status = "Draft";
+		}
 
         // Check if the user is an instructor
 		const instructorDetails = await User.findById(userId, {
@@ -48,17 +61,20 @@ exports.createCourse = async(req, res) => {
 
         //image upload to cloudinary
         const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME); 
+        console.log(thumbnailImage);
 
         //create an entry for new Course in db
         const newCourse = await Course.create({
             courseName,
-            courseDescription,
-            instructor: instructorDetails._id,
-            whatYouWillLearn: whatYouWillLearn,
-            price: price,
-            tag: tag,
+			courseDescription,
+			instructor: instructorDetails._id,
+			whatYouWillLearn: whatYouWillLearn,
+			price,
+			tag: tag,
 			category: categoryDetails._id,
-            thumbnail: thumbnailImage.secure_url,
+			thumbnail: thumbnailImage.secure_url,
+			status: status,
+			instructions: instructions,
         })
 
         //add course entry in User schema
@@ -78,7 +94,7 @@ exports.createCourse = async(req, res) => {
             {_id: category},
             {
                 $push: {
-                    course: newCourse._id,
+                    courses: newCourse._id,
                 }
             },
             {new: true},
@@ -96,36 +112,6 @@ exports.createCourse = async(req, res) => {
         return res.status(500).json({
             success: false,
             message: "Failed to create course",
-            error: error.message,
-        })
-    }
-}
-
-//get all courses handler function
-exports.showAllCourses = async(req, res) => {
-    try {
-        //Understand later
-        const alllCourses = await Course.find({}, {courseName: true,
-                                                    price: true,
-                                                    thumbnail: true,
-                                                    instructor: true,
-                                                    ratingAndReviews: true,
-                                                    studentsEnrolled: true})
-                                                    .populate("instructor")
-                                                    .exec();
-
-        return res.status(200).json({
-            success: true,
-            message: "Data for all courses fetched successfully",
-            data: alllCourses,
-        })
-        
-    } 
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            message: "Cannot fetch Data",
             error: error.message,
         })
     }
