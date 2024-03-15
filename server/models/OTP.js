@@ -14,7 +14,7 @@ const otpSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now(),
-        expires: 5 * 60,
+        expires: 5 * 60 * 1000,
     }
 });
 
@@ -23,7 +23,7 @@ async function sendVerificationEmail(email, otp) {
     try {
         const mailResponse = await mailSender(
             email, 
-            "Veification Email from StudyNotion", 
+            "Veification Email", 
             emailTemplate(otp)
         );
 
@@ -32,12 +32,19 @@ async function sendVerificationEmail(email, otp) {
     catch (error) {
         console.log("Error while sending verification mail!");
         console.log(error);
-        throw error;
     }
 }
 
-otpSchema.pre("save", async(next) => {
-    await sendVerificationEmail(this.email, this.otp);
+otpSchema.pre("save", async function (next) {
+
+    console.log("New document saved to database");
+    console.log("email: ", this.email );
+    console.log("otp: ", this.otp );
+    
+    // Only send an email when a new document is created
+	if (this.isNew) {
+		await sendVerificationEmail(this.email, this.otp);
+	}
     next();
 })
 

@@ -64,6 +64,7 @@ exports.updateSubsection = async(req, res) => {
         //fetch data
         const {subsectionId, title, description} = req.body;
 
+
         //find subsection
         const subsection = await Subsection.findById(subsectionId);
         

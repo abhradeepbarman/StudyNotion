@@ -30,7 +30,7 @@ exports.createSection = async(req, res) => {
         .populate({
             path: "courseContent",
             populate: {
-                path: "subSection",
+                path: "subsection",
             },
         })
         .exec();
@@ -101,6 +101,8 @@ exports.deleteSection = async(req, res) => {
                 message: "All fields are required",
             })
         }
+
+        console.log("section delete");
 
         //delete section in section schema
         await Section.findByIdAndDelete( sectionId )

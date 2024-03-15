@@ -1,6 +1,7 @@
 const Course = require("../models/Course");
 const Profile = require("../models/Profile");
 const User = require("../models/User");
+const {uploadImageToCloudinary} = require("../utils/imageUploader")
 
 
 //update profile of a user
@@ -56,7 +57,8 @@ exports.deleteAccount = async(req, res) => {
         const id = req.user.id;
 
         //validation
-        const userDetails = await User.findById({_id: id});
+        const userDetails = await User.findById(id);
+
         if(!userDetails) {
             return res.status(404).json({
                 success: false,
@@ -64,25 +66,28 @@ exports.deleteAccount = async(req, res) => {
             })
         }
 
+
+
         //TODO: unenroll user from all enrolled courses
-        userDetails.courses.map(async(courseId) => {
-            //delete the user from course schema
-            await Course.findByIdAndUpdate(
-                {_id: courseId},
-                {
-                    $pull: {
-                        studentsEnrolled: id,
-                    }
-                },
-                {new: true},
-            )
-        });
+        // userDetails.courses.map(async(courseId) => {
+        //     //delete the user from course schema
+        //     await Course.findByIdAndUpdate(
+        //         {_id: courseId},
+        //         {
+        //             $pull: {
+        //                 studentsEnrolled: id,
+        //             }
+        //         },
+        //         {new: true},
+        //     )
+        // });
+
 
         //delete profile of user
-        await Profile.findByIdAndDelete({ _id: userDetails.additionalDetails});
+        await Profile.findByIdAndDelete(userDetails.additionalDetails);
 
         //delete user
-        await User.findByIdAndDelete({_id: id});
+        await User.findByIdAndDelete(userDetails._id);
 
         //return response
         return res.status(200).json({
@@ -99,13 +104,13 @@ exports.deleteAccount = async(req, res) => {
 }
 
 //get All details of a user
-explore.getAllUserDetails = async(req, res) => {
+exports.getAllUserDetails = async(req, res) => {
     try {
         //fetch data
-        const {id} = req.body;
+        const id = req.user.id;
 
         //get user details
-        const userDetails = await User.findById({_id: id})
+        const userDetails = await User.findOne({_id: id})
                                         .populate("additionalDetails")
                                         .exec();
         

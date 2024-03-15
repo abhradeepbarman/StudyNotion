@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+
 const mailSender = async(email, title, body) => {
     try {
         const transporter = nodemailer.createTransport({
@@ -18,6 +19,7 @@ const mailSender = async(email, title, body) => {
             html: body, 
         });
 
+        console.log("Email sent Successfully!!!!");
         console.log(info);
         return info;
     } 

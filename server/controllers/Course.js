@@ -8,10 +8,10 @@ exports.createCourse = async(req, res) => {
     try {
         // Get user ID from request object
 		const userId = req.user.id;
-
+        
         //data fetch
-        const {
-			courseName,
+        let {
+            courseName,
 			courseDescription,
 			whatYouWillLearn,
 			price,
@@ -20,10 +20,11 @@ exports.createCourse = async(req, res) => {
 			status,
 			instructions,
 		} = req.body;
-
+        
         //thumbnail fetch
         const thumbnail = req.files.thumbnailImage;
-
+        
+        
         //validation
         if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail || !tag) {
             return res.status(400).json({
@@ -50,7 +51,7 @@ exports.createCourse = async(req, res) => {
         }
 
         //category validation
-        const categoryDetails = await Category.findById(category);
+        const categoryDetails = await Category.findOne({_id: category});
         if(!categoryDetails) {
             //category invalid
             return res.status(404).json({
@@ -60,8 +61,8 @@ exports.createCourse = async(req, res) => {
         }
 
         //image upload to cloudinary
-        const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME); 
-        console.log(thumbnailImage);
+        const thumbnailImageDetails = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME); 
+        console.log(thumbnailImageDetails);
 
         //create an entry for new Course in db
         const newCourse = await Course.create({
@@ -72,13 +73,13 @@ exports.createCourse = async(req, res) => {
 			price,
 			tag: tag,
 			category: categoryDetails._id,
-			thumbnail: thumbnailImage.secure_url,
+			thumbnail: thumbnailImageDetails.secure_url,
 			status: status,
 			instructions: instructions,
         })
 
         //add course entry in User schema
-        await User.findByIdAndUpdate(
+        await User.findOneAndUpdate(
             {_id: instructorDetails._id},
             {
                 $push: {
@@ -137,7 +138,8 @@ exports.getAllCourses = async (req, res) => {
 			success: true,
 			data: allCourses,
 		});
-	} catch (error) {
+	} 
+    catch (error) {
 		console.log(error);
 		return res.status(404).json({
 			success: false,

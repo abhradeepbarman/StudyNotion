@@ -26,7 +26,7 @@ exports.sendOTP = async(req, res) => {
         }
 
         //generate otp
-        var otp = otpGenerator.generate(6, { 
+        let otp = otpGenerator.generate(6, { 
             upperCaseAlphabets: false, 
             specialChars: false,
             lowerCaseAlphabets: false,
@@ -47,9 +47,10 @@ exports.sendOTP = async(req, res) => {
             result = await OTP.findOne({otp: otp});
         }
 
+        console.log("Final OTP ", otp);
 
         //create entry in db for otp
-        const otpPayload = {email, otp};
+        const otpPayload = { email, otp }
         const otpBody = await OTP.create(otpPayload);
         console.log(otpBody);
 
@@ -80,7 +81,7 @@ exports.signup = async(req, res) => {
         if(!firstName || !lastName || !email || !password || !confirmPassword || !otp) {
             return res.status(403).json({
                 success: false,
-                message: "ALL fields are required"
+                message: "All fields are required"
             })
         }
 
@@ -113,7 +114,8 @@ exports.signup = async(req, res) => {
                 message: "OTP not found"
             })
         }
-        else if(otp !== recentOtp.otp) {
+        
+        if(otp !== recentOtp[0].otp) {
             //invalid OTP
             return res.status(400).json({
                 success: false,
