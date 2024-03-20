@@ -117,17 +117,17 @@ exports.deleteSubsection = async(req, res) => {
         const { subsectionId, sectionId } = req.body
 
         //delete subsection Id from section schema
-        await Section.findByIdAndUpdate(
+        await Section.findOneAndUpdate(
           { _id: sectionId },
           {
             $pull: {
-              subSection: subsectionId,
+              subsection: subsectionId,
             },
           }
         )
         
         //delete subsection
-        const subSection = await Subsection.findByIdAndDelete({ _id: subsectionId })
+        const subSection = await Subsection.findOneAndDelete({ _id: subsectionId })
           
         //validation
         if (!subSection) {

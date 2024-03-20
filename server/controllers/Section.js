@@ -1,5 +1,6 @@
 const Section = require("../models/Section");
 const Course = require("../models/Course");
+const Subsection = require("../models/Subsection")
 
 exports.createSection = async(req, res) => {
     try {
@@ -92,7 +93,8 @@ exports.updateSection = async(req, res) => {
 exports.deleteSection = async(req, res) => {
     try {
         //fetch id - assuming that we are sending ID in parameters
-        const {sectionId} = req.params;
+        const {sectionId} = req.query;
+        const {courseId} = req.body;
 
         //validation
         if(!sectionId) {
@@ -102,14 +104,27 @@ exports.deleteSection = async(req, res) => {
             })
         }
 
-        console.log("section delete");
+        //delete subsections related to section 
+        const section = await Section.findById(sectionId);
+        if (section.subsection) {
+            for(const subsectionId of section.subsection) {
+                await Subsection.findByIdAndDelete(subsectionId);
+            }
+        }
+
+        //delete sectionId in course schema
+        //[Testing] -- do we need to delete the entry from course schema also??
+        await Course.findByIdAndUpdate(
+            courseId,
+            {
+                $pull: {
+                    courseContent: sectionId,
+                }
+            }
+        )
 
         //delete section in section schema
         await Section.findByIdAndDelete( sectionId )
-
-        //delete sectionId in course schema
-        //delete subsection related with sectionId
-        //[Testing] -- do we need to delete the entry from course schema also??
         
         //return response
         return res.status(200).json({

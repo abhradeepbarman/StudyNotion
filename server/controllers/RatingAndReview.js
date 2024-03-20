@@ -1,6 +1,6 @@
 const RatingAndReview = require("../models/RatingAndReview");
 const Course = require("../models/Course");
-const { default: mongoose } = require("mongoose");
+const { mongoose } = require("mongoose");
 
 exports.createRating = async(req, res) => {
     try {
@@ -11,8 +11,12 @@ exports.createRating = async(req, res) => {
         const {rating, review, courseId} = req.body;
 
         //check if user is enrolled or not
-        const courseDetails = await Course.findOne({_id: courseId, 
-                                            studentsEnrolled: {$eleMatch: {$eq: userId}}});
+        const courseDetails = await Course.findOne(
+            {
+                _id: courseId,
+                studentsEnrolled: { $elemMatch: { $eq: userId } }
+            }
+        );
         
         if(!courseDetails) {
             return res.status(404).json({

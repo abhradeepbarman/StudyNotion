@@ -69,18 +69,17 @@ exports.deleteAccount = async(req, res) => {
 
 
         //TODO: unenroll user from all enrolled courses
-        // userDetails.courses.map(async(courseId) => {
-        //     //delete the user from course schema
-        //     await Course.findByIdAndUpdate(
-        //         {_id: courseId},
-        //         {
-        //             $pull: {
-        //                 studentsEnrolled: id,
-        //             }
-        //         },
-        //         {new: true},
-        //     )
-        // });
+      //   for (const courseId of userDetails.courses) {
+      //     await Course.findByIdAndUpdate(
+      //         courseId,
+      //         {
+      //             $pull: {
+      //                 studentsEnrolled: id,
+      //             }
+      //         },
+      //         { new: true }
+      //     );
+      // }
 
 
         //delete profile of user
