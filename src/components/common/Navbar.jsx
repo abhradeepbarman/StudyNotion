@@ -10,18 +10,6 @@ import { apiConnector } from '../../services/apiConnector'
 import { categories } from '../../services/apis'
 import { IoIosArrowDown } from "react-icons/io";
 
-
-const sublinks = [
-    {
-        title: "python",
-        link: "/catalog/python"
-    },
-    {
-        title: "web dev",
-        link: "/catalog/webdev"
-    }
-]
-
 function Navbar() {
 
     const {token} = useSelector((state) => state.auth)
@@ -30,27 +18,33 @@ function Navbar() {
 
     const location = useLocation(); 
 
-    // const [sublinks, setSublinks] = useState([]);
+    const [sublinks, setSublinks] = useState([]);
 
-    // const fetchSublinks  = async() => {
-    //     try {
-    //         const result = await apiConnector("GET", categories.CATEGORIES_API);
-    //         console.log("printing sublinks:", result);
-    //         setSublinks(result.data.data);
-    //     } 
-    //     catch (error) {
-    //         console.log("Cannot fetch the catagory list");
-    //         console.log(error);
-    //     }
-    // }
+    const fetchSublinks  = async() => {
+        try {
+            const result = await apiConnector("GET", categories.CATEGORIES_API);
+            console.log("printing sublinks:", result);
+            setSublinks(result.data.allCategory);
+        } 
+        catch (error) {
+            console.log("Cannot fetch the catagory list");
+            console.log(error);
+        }
+    }
 
 
-    // useEffect(() => {
-    //     fetchSublinks();
-    // }, [])
+    useEffect(() => {
+        fetchSublinks();
+    }, [])
 
     const matchRoute = (route) => {
         return matchPath({path:route}, location.pathname);
+    }
+
+    function makeSlug(str) {
+        return str
+            .toLowerCase()
+            .replace(' ', '-')
     }
 
   return (
@@ -89,8 +83,9 @@ function Navbar() {
                                                     {
                                                         sublinks.length ? (
                                                             sublinks.map((sublink, index) => (
-                                                                <Link to={sublink.link}>
-                                                                    {sublink.title}
+
+                                                                <Link to={`/catalog /${makeSlug(sublink.name)}`}>
+                                                                    {sublink.name}
                                                                 </Link>
                                                             ))
                                                         ) : (<div></div>)
@@ -116,6 +111,7 @@ function Navbar() {
             {/* Login / Signup / Dashboard  */}
             <div className='flex gap-x-4 items-center'>
                 
+                {/* cart icon  */}
                 {
                     user && user?.accountType !== "Instructor" && (
                         <Link to={"/dashboard/cart"} className='relative'>
@@ -149,7 +145,8 @@ function Navbar() {
                     )
                 }
                 {
-                    token !== null && <ProfileDropdown />
+                    token !== null && 
+                    <ProfileDropdown />
                 }
 
             </div>
