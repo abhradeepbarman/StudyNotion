@@ -58,7 +58,7 @@ function SignupForm() {
     dispatch(setSignupData(signupData))
     
     // Send OTP to user for verification
-    sendOtp(formData.email, navigate, dispatch)
+    sendOtp(signupData.email, navigate, dispatch)
 
     // Reset Form
     setFormData({

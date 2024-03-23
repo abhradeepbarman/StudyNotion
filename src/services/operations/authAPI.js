@@ -41,7 +41,7 @@ export async function sendOtp(email, navigate, dispatch) {
     } 
     catch (error) {
       console.log("SENDOTP API ERROR............", error)
-      toast.error("Could Not Send OTP")
+      toast.error(error.response.data.message)
     }
 
     //stop loading
@@ -49,7 +49,7 @@ export async function sendOtp(email, navigate, dispatch) {
     toast.dismiss(toastId)
 }
 
-export function signUp(
+export async function signUp(
   accountType,
   firstName,
   lastName,
@@ -57,12 +57,15 @@ export function signUp(
   password,
   confirmPassword,
   otp,
-  navigate
+  navigate,
+  dispatch
 ) {
-  return async (dispatch) => {
+    //start loading
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
+
     try {
+      //connect to backend
       const response = await apiConnector("POST", SIGNUP_API, {
         accountType,
         firstName,
@@ -75,19 +78,24 @@ export function signUp(
 
       console.log("SIGNUP API RESPONSE............", response)
 
+      //check if we got any valid response
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
+
+      //signup successful
       toast.success("Signup Successful")
       navigate("/login")
-    } catch (error) {
+    } 
+    catch (error) {
       console.log("SIGNUP API ERROR............", error)
-      toast.error("Signup Failed")
+      toast.error(error.response.data.message)
       navigate("/signup")
     }
+
+    //stop loading
     dispatch(setLoading(false))
     toast.dismiss(toastId)
-  }
 }
 
 export async function login(email, password, navigate, dispatch) {
@@ -131,7 +139,7 @@ export async function login(email, password, navigate, dispatch) {
     } 
     catch (error) {
       console.log("LOGIN API ERROR............", error)
-      toast.error("Login Failed")
+      toast.error(error.response.data.message)
     }
 
     //stop loading
@@ -139,36 +147,44 @@ export async function login(email, password, navigate, dispatch) {
     toast.dismiss(toastId)
 }
 
-export function getPasswordResetToken(email, setEmailSent) {
-  return async (dispatch) => {
+export async function getPasswordResetToken(email, setEmailSent, dispatch) {
+    
+  //start loading
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
+    
     try {
-      const response = await apiConnector("POST", RESETPASSTOKEN_API, {
-        email,
-      })
+      //connect to backend
+      const response = await apiConnector("POST", RESETPASSTOKEN_API, {email})
 
       console.log("RESETPASSTOKEN RESPONSE............", response)
 
+      //check if we email sent 
       if (!response.data.success) {
         throw new Error(response.data.message)
       }
-
+      
+      //email sent successfully
       toast.success("Reset Email Sent")
       setEmailSent(true)
-    } catch (error) {
+    } 
+    catch (error) {
+      //error
       console.log("RESETPASSTOKEN ERROR............", error)
-      toast.error("Failed To Send Reset Email")
+      toast.error(error.response.data.message)
     }
+
+    //stop loading
     toast.dismiss(toastId)
     dispatch(setLoading(false))
-  }
 }
 
-export function resetPassword(password, confirmPassword, token, navigate) {
-  return async (dispatch) => {
+export async function resetPassword(password, confirmPassword, token, dispatch, navigate) {
+  
+    //start loading  
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
+    
     try {
       const response = await apiConnector("POST", RESETPASSWORD_API, {
         password,
@@ -184,15 +200,15 @@ export function resetPassword(password, confirmPassword, token, navigate) {
 
       toast.success("Password Reset Successfully")
       navigate("/login")
-    } catch (error) {
+    } 
+    catch (error) {
       console.log("RESETPASSWORD ERROR............", error)
-      toast.error("Failed To Reset Password")
+      toast.error(error.response.data.message)
     }
 
     //stop loading
     toast.dismiss(toastId)
     dispatch(setLoading(false))
-  }
 }
 
 export function logout(navigate) {
