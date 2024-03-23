@@ -42,7 +42,10 @@ function UpdatePassword() {
     <div className='flex justify-center items-center mt-[150px]'>
         {
             loading ? (
-                <div>Loading...</div>
+                <div className='flex flex-col items-center justify-center gap-y-2 '>
+                    <div className='spinner'></div>
+                    <p className='font-bold'>Loading...</p>
+                </div>
             ) : (
                 <div className='text-richblack-5 w-[420px] flex flex-col space-y-2'>
                     <h1 className='text-3xl font-semibold'>Choose New Password</h1>

@@ -84,7 +84,9 @@ function Navbar() {
                                                         sublinks.length ? (
                                                             sublinks.map((sublink, index) => (
 
-                                                                <Link to={`/catalog/${makeSlug(sublink.name)}`}>
+                                                                <Link to={`/catalog/${makeSlug(sublink.name)}`}
+                                                                key={index}
+                                                                >
                                                                     {sublink.name}
                                                                 </Link>
                                                             ))

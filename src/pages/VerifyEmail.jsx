@@ -39,7 +39,10 @@ function VerifyEmail() {
     <div  className='flex justify-center items-center mt-[150px] text-richblack-5'>
         {
             loading ? (
-                <div>Loading...</div>
+                <div className='flex flex-col items-center justify-center gap-y-2 '>
+                    <div className='spinner'></div>
+                    <p className='font-bold'>Loading...</p>
+                </div>
             ) : (
                 <div  className='w-[400px] space-y-3'>
                     <h1 className='text-3xl font-semibold text-richblack-5'>Verify Email</h1>
