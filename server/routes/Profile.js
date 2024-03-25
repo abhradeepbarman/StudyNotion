@@ -11,6 +11,8 @@ const {
   getEnrolledCourses,
 } = require("../controllers/Profile")
 
+const {createContact} = require("../controllers/ContactUs")
+
 // ********************************************************************************************************
 //                                      Profile routes
 // ********************************************************************************************************
@@ -22,5 +24,8 @@ router.get("/getUserDetails", auth, getAllUserDetails)
 // Get Enrolled Courses
 router.get("/getEnrolledCourses", auth, getEnrolledCourses)
 router.put("/updateDisplayPicture", auth, updateDisplayPicture)
+
+//contact form submission
+router.post("/contact", createContact)
 
 module.exports = router

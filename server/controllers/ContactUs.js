@@ -1,14 +1,14 @@
 const ContactUs = require("../models/ContactUs");
-const contactForm = require("../mail/templates/contactFormRes")
+const {contactUsEmail} = require("../mail/templates/contactFormRes")
 const mailSender = require("../utils/mailSender")
 
 exports.createContact = async(req, res) => {
     try {
         //fetch data
-        const {firstName, lastName, email, phoneNumber, message} = req.body;
+        const {firstName, lastName, email, phoneNumber, message, countryCode} = req.body;
 
         //validation
-        if(!firstName || !lastName || !email || !phoneNumber || !message) {
+        if(!firstName || !lastName || !email || !phoneNumber || !message || !countryCode) {
             return res.json({
                 success: false,
                 message: "Please give all details",
@@ -21,6 +21,7 @@ exports.createContact = async(req, res) => {
             lastName,
             email,
             phoneNumber,
+            countryCode,
             message,
         });
 
@@ -28,7 +29,7 @@ exports.createContact = async(req, res) => {
         await mailSender(
             email,
             "Query received",
-            contactForm(email, firstName, lastName, message, phoneNumber)
+            contactUsEmail(email, firstName, lastName, message, phoneNumber, countryCode)
         )
 
         //return response
