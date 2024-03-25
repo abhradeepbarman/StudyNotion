@@ -72,7 +72,7 @@ function Navbar() {
 
                                                 <div className='invisible absolute left-[50%] 
                                                 translate-x-[-50%]
-                                                translate-y-[70%]
+                                                translate-y-[20%]
                                                 top-[50%] flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-200 group-hover:visible
                                                 group-hover:opacity-100
                                                 lg:w-[300px] z-50
@@ -86,6 +86,7 @@ function Navbar() {
 
                                                                 <Link to={`/catalog/${makeSlug(sublink.name)}`}
                                                                 key={index}
+                                                                className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
                                                                 >
                                                                     {sublink.name}
                                                                 </Link>
