@@ -4,6 +4,7 @@ import { resetCart } from "../../store/slices/cartSlice"
 import { setUser } from "../../store/slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { authEndpoints } from "../apis"
+import { useSelector } from "react-redux"
 
 const {
   SENDOTP_API,
@@ -133,6 +134,9 @@ export async function login(email, password, navigate, dispatch) {
       
       //save the token in the local storage
       localStorage.setItem("token", JSON.stringify(response.data.token))
+
+      //save the user details in local storage
+      localStorage.setItem("user", JSON.stringify(response.data.user))
 
       //navigate to dashboard
       navigate("/dashboard/my-profile")

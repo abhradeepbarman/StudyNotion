@@ -16,7 +16,7 @@ export default function ProfileDropdown() {
 
   useOnClickOutside(ref, () => setOpen(false))
 
-  // if (!user) return null
+  if (!user) return null
 
   return (
     <button className="relative" onClick={() => setOpen(true)}>

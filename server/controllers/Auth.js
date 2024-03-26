@@ -236,10 +236,11 @@ exports.login = async(req, res) => {
 exports.changePassword = async(req, res) => {
     //fetch data from req body
     //get old password, new Password, confirm New Password
-    const {email, oldPassword, newPassword, confirmNewPassword} = req.body;
+    const {oldPassword, newPassword} = req.body;
+    const {email} = req.user;
 
     //validation
-    if(!email || !oldPassword || !newPassword || !confirmNewPassword) {
+    if(!email || !oldPassword || !newPassword) {
         return res.status(403).json({
             success: false,
             message: "All fiels are required",
