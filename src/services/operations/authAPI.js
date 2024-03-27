@@ -4,7 +4,6 @@ import { resetCart } from "../../store/slices/cartSlice"
 import { setUser } from "../../store/slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { authEndpoints } from "../apis"
-import { useSelector } from "react-redux"
 
 const {
   SENDOTP_API,
