@@ -140,7 +140,6 @@ function CourseInformationForm() {
 
       return;
         }
-
     
         //New Course
         const formData = new FormData()
@@ -351,7 +350,7 @@ function CourseInformationForm() {
                 )
             }
             <IconBtn
-                type={"submit"}
+                type={"Submit"}
                 disabled={loading}
                 text={!editCourse ? "Next" : "Save Changes"}
             >
