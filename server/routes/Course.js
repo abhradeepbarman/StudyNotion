@@ -9,6 +9,10 @@ const {
   createCourse,
   getAllCourses,
   getCourseDetails,
+  editCourse,
+  getInstructorCourses,
+  deleteCourse,
+  getFullCourseDetails
 } = require("../controllers/Course")
 
 
@@ -49,6 +53,14 @@ const { auth, isInstructor, isStudent, isAdmin } = require("../middlewares/auth"
 
 // Courses can Only be Created by Instructors
 router.post("/createCourse", auth, isInstructor, createCourse)
+//edit course
+router.put("/editCourse", auth, isInstructor, editCourse)
+//delete course
+router.delete("/deleteCourse", auth, isInstructor, deleteCourse)
+//get full details of course
+router.post("/getFullCourseDetails", auth, getFullCourseDetails)
+// get instructor courses
+router.get("/getInstructorCourses", auth, isInstructor, getInstructorCourses)
 //Add a Section to a Course
 router.post("/addSection", auth, isInstructor, createSection)
 // Update a Section
