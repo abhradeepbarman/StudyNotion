@@ -60,7 +60,7 @@ function PublishCourse() {
 
     function gotoCourses() {
         dispatch(resetCourseState())
-        ("/dashboard/my-courses")
+        navigate("/dashboard/my-courses")
     }
 
     const goBack = () => {
