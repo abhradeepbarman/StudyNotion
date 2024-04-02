@@ -104,6 +104,15 @@ function CourseDetails() {
             buyCourse(token, [courseId], user, navigate, dispatch)
             return;
         }
+
+        setConfirmationModal({
+            text1: "You are not Logged in!",
+            text2: "Please login to add cart",
+            btn1Text: "Login",
+            btn2Text: "Cancel",
+            btn1Handler: () => navigate("/login"),
+            btn2Handler: () => setConfirmationModal(null)
+        })
     }
     
 
@@ -271,7 +280,7 @@ function CourseDetails() {
 
         <Footer />
         {
-            confirmationModal && <ConfirmationModal />
+            confirmationModal && <ConfirmationModal modalData={confirmationModal} />
         }
     </>
   )
