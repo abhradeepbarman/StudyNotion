@@ -8,10 +8,11 @@ import Upload from '../Upload'
 import RequirementField from '../RequirementField'
 import IconBtn from '../../../../common/IconBtn'
 import {MdNavigateNext} from "react-icons/md"
-import { setStep, setCourse } from '../../../../../store/slices/courseSlice'
+import { setStep, setCourse, setEditCourse } from '../../../../../store/slices/courseSlice'
 import toast from 'react-hot-toast'
 import { addCourseDetails } from '../../../../../services/operations/courseDetailsAPI'
 import {COURSE_STATUS} from "../../../../../utils/constants"
+import { FaSleigh } from 'react-icons/fa'
 
 function CourseInformationForm() {
 
@@ -45,13 +46,14 @@ function CourseInformationForm() {
         }
 
         if(editCourse) {
+            console.log("course.....", course);
             setValue("courseTitle", course.courseName);
             setValue("courseShortDesc", course.courseDescription);
             setValue("coursePrice", course.price);
             setValue("courseTags", course.tag);
             setValue("courseBenefits", course.whatYouWillLearn);
             setValue("courseCategory", course.category._id);
-            setValue("courseRequirements", course.instructions);
+           setValue("courseRequirements", course.instructions);
             setValue("courseImage", course.thumbnail);
         }
 
@@ -86,7 +88,7 @@ function CourseInformationForm() {
             if (isFormUpdated()) {
                 const currentValues = getValues()
                 const formData = new FormData()
-                // console.log(data)
+                console.log(data)
 
                 formData.append("courseId", course._id)
                 if (currentValues.courseTitle !== course.courseName) {
@@ -130,6 +132,7 @@ function CourseInformationForm() {
         const result = await editCourseDetails(formData, token)
         setLoading(false)
         if (result) {
+          dispatch(setEditCourse(FaSleigh))
           dispatch(setStep(2))
           dispatch(setCourse(result))
         }
@@ -139,7 +142,7 @@ function CourseInformationForm() {
       }
 
       return;
-        }
+    }
     
         //New Course
         const formData = new FormData()
@@ -151,6 +154,7 @@ function CourseInformationForm() {
         formData.append("whatYouWillLearn", data.courseBenefits)
         formData.append("category", data.courseCategory)
         formData.append("status", COURSE_STATUS.DRAFT)
+        console.log("courseRequirements:", data.courseRequirements);
         formData.append("instructions", JSON.stringify(data.courseRequirements))
         formData.append("thumbnailImage", data.courseImage)
 

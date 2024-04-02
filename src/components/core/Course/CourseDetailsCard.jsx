@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ACCOUNT_TYPE } from '../../../utils/constants'
 import toast from 'react-hot-toast'
@@ -46,6 +46,10 @@ function CourseDetailsCard({course, setConfirmationModal, handleBuyCourse}) {
     copy(window.location.href)
     toast.success("Link copied to clipboard")
   }
+
+  useEffect(() => {
+    console.log("printing course", course);
+  }, [])
 
   return (
     <div>

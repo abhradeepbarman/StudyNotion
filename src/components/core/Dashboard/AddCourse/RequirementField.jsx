@@ -17,8 +17,8 @@ function RequirementField({
   const handleAddRequirement = () => {
     if(requirement) {
       setRequirementList([...requirementList, requirement])
+      setRequirement("");
     }
-    setRequirement("");
   }
 
   const handleRemoveRequirement = (index) => {
@@ -69,9 +69,9 @@ function RequirementField({
         requirementList.length > 0 &&
         <ul className="mt-2 list-inside list-disc">
           {
-            requirementList.map((requirement, index) => (
+            requirementList.map((req, index) => (
               <li key={index} className="flex items-center text-richblack-5">
-                <span>{requirement}</span>
+                <span>{req}</span>
                 <button
                 type='button'
                 className="ml-2 text-xs text-pure-greys-300 "

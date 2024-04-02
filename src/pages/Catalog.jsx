@@ -116,7 +116,7 @@ function Catalog() {
                 catalogPageData?.data?.differentCategories?.courses
                 ?.slice(0, 4)
                 .map((course, index) => (
-                  <CourseCard course={course} key={index} Height={"h-400px"} />
+                  <CourseCard course={course} key={index} Height={"h-[400px]"} />
                 ))
               }
             </div>

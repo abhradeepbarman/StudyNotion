@@ -19,18 +19,25 @@ exports.createCourse = async(req, res) => {
 			courseDescription,
 			whatYouWillLearn,
 			price,
-			tag,
+			tag: _tag,
 			category,
 			status,
-			instructions,
+			instructions: _instructions,
 		} = req.body;
         
         //thumbnail fetch
         const thumbnail = req.files.thumbnailImage;
+
+        // Convert the tag and instructions from stringified Array to Array
+        const tag = JSON.parse(_tag)
+        const instructions = JSON.parse(_instructions)
+
+        console.log("tag", tag)
+        console.log("instructions", instructions)
         
         
         //validation
-        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail || !tag) {
+        if(!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail || !tag.length || !instructions.length) {
             return res.status(400).json({
                 success: false,
                 message: "All fields are required, Please try again"
@@ -244,7 +251,7 @@ exports.editCourse = async(req, res) => {
         //update only the fields that are found in request body
         for(const key in updates) {
             if(key === "tag" || key === "instructions") {
-                course.key = JSON.parse(updates[key])
+                course[key] = JSON.parse(updates[key])
             }
             else {
                 course[key] = updates[key]
