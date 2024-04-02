@@ -100,7 +100,6 @@ function CourseDetails() {
     } = response?.data?.courseDetails
 
     const handleBuyCourse = () => {
-        console.log("inside handle buy course")
         if(token) {
             buyCourse(token, [courseId], user, navigate, dispatch)
             return;
@@ -138,7 +137,7 @@ function CourseDetails() {
                             </span>
                             <RatingStars review_count={avgReviewCount} star_size={24} />
                             <span>
-                                {`${ratingAndReviews.length} reviews`}
+                                {` (${ratingAndReviews.length} reviews) `}
                             </span>
                             <span>
                                 {`${studentsEnrolled.length} students enrolled`}
@@ -178,7 +177,7 @@ function CourseDetails() {
                 </div>
 
                 {/* Course Card  */}
-                <div className="right-[1rem] top-[60px] mx-auto hidden min-h-[600px] w-1/3 max-w-[410px] translate-y-24 md:translate-y-0 lg:absolute  lg:block">
+                <div className="right-[6rem] top-[60px] mx-auto hidden min-h-[500px] w-1/3 max-w-[380px] translate-y-24 md:translate-y-0 lg:absolute  lg:block">
                     <CourseDetailsCard 
                         course={response?.data?.courseDetails}
                         setConfirmationModal={setConfirmationModal}

@@ -11,11 +11,11 @@ const crypto = require("crypto")
 
 //initiate the razorpay order
 exports.capturePayment = async (req, res) => {
-
-    console.log("inside capture payment");
     
     const {courses} = req.body
     const userId = req.user.id
+
+    console.log("courses in cart", courses);
 
     if(courses.length === 0) {
         return res.json({
@@ -55,26 +55,28 @@ exports.capturePayment = async (req, res) => {
             })
         }
 
-        const options = {
-            amount: totalAmount * 100,
-            currency: "INR",
-            receipt: Math.random(Date.now()).toString(),
-        }
+        
+    }
 
-        try {
-            const paymentResponse = await instance.orders.create(options)    
-            return res.json({
-                success: true,
-                data: paymentResponse,
-            })
-        } 
-        catch (error) {
-            console.log(error);
-            return res.status(500).json({
-                success: false,
-                message: "Could not initiate order",
-            })
-        }
+    const options = {
+        amount: totalAmount * 100,
+        currency: "INR",
+        receipt: Math.random(Date.now()).toString(),
+    }
+
+    try {
+        const paymentResponse = await instance.orders.create(options)    
+        return res.json({
+            success: true,
+            data: paymentResponse,
+        })
+    } 
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success: false,
+            message: "Could not initiate order",
+        })
     }
 }
 

@@ -28,9 +28,7 @@ function EnrolledCourses() {
         {
             !enrolledCourses ? (
             <div  className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
-                <div className='spinner'>
-                    Loading...
-                </div>
+                <div className='spinner'></div>
             </div>)
             : !enrolledCourses.length ? (
                 <p className="grid h-[10vh] w-full place-content-center text-richblack-5">
