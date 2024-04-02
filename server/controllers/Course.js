@@ -5,6 +5,7 @@ const Subsection = require("../models/Subsection")
 const User = require("../models/User");
 const CourseProgress = require("../models/CourseProgress")
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
+const { convertSecondsToDuration } = require("../utils/secToDuration");
 
 //create course handler function
 exports.createCourse = async(req, res) => {
@@ -185,11 +186,24 @@ exports.getCourseDetails = async(req, res) => {
             })
         }
 
+        let totalDurationInSeconds = 0
+        courseDetails.courseContent.forEach((section) => {
+            section.subsection.forEach((subsection) => {
+                const time = parseInt(subsection.timeDuration)
+                totalDurationInSeconds += time
+            })
+        })
+
+        const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
         //return response
         return res.status(200).json({
             success: true,
             message: "Course details fetched successfully",
-            data: courseDetails,
+            data: {
+                courseDetails,
+                totalDuration
+            },
         })
     } 
     catch (error) {
@@ -357,7 +371,6 @@ exports.deleteCourse = async(req, res) => {
 
 exports.getFullCourseDetails = async (req, res) => {
     try {
-        console.log(req.body);
       const {courseId}  = req.body
       const userId = req.user.id
       const courseDetails = await Course.findOne({
@@ -392,6 +405,10 @@ exports.getFullCourseDetails = async (req, res) => {
         return res.status(400).json({
           success: false,
           message: `Could not find course with id: ${courseId}`,
+          data: {
+            courseDetails,
+            CourseProgress
+          }
         })
       }
   

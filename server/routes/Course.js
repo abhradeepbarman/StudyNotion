@@ -76,7 +76,7 @@ router.delete("/deleteSubsection", auth, isInstructor, deleteSubsection)
 // Get all Registered Courses
 router.get("/getAllCourses", getAllCourses)
 // Get Details for a Specific Courses
-router.get("/getCourseDetails", getCourseDetails)
+router.post("/getCourseDetails", getCourseDetails)
 
 // ********************************************************************************************************
 //                                      Category routes (Only by Admin)
