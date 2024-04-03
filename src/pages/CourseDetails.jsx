@@ -13,6 +13,7 @@ import ConfirmationModal from '../components/common/ConfirmationModal'
 import Error from './Error'
 import CourseDetailsCard from '../components/core/Course/CourseDetailsCard'
 import { buyCourse } from '../services/operations/studentFeaturesAPI'
+import CourseAccordian from '../components/core/Course/CourseAccordian'
 
 function CourseDetails() {
 
@@ -60,16 +61,12 @@ function CourseDetails() {
             lectures += sec.subsection.length || 0
         })
 
-        setTotalLectures(0)
+        setTotalLectures(lectures)
     }, [response])
 
-    const [isActive, setIsActive] = useState(Array(0))
-    const handleActive = (id) => {
-        setIsActive(
-            !isActive.includes(id)
-                ? isActive.concat([id])
-                : isActive.filter((e) => e !== id)
-        )
+    const [isActive, setIsActive] = useState(false)
+    const handleActive = () => {
+        setIsActive(false)
     }
 
 
@@ -232,7 +229,7 @@ function CourseDetails() {
                             <div>
                                 <button 
                                     className="text-yellow-25"
-                                    onClick={() => setIsActive([])}
+                                    onClick={handleActive}
                                 >
                                     Collapse all sections
                                 </button>
@@ -241,16 +238,18 @@ function CourseDetails() {
                     </div>
 
                     {/* Lectures Display  */}
-                    {/* {
-                        courseContent.map((section, index) => (
-                            <CourseAccordian 
-                                section={section}
-                                key={index}
-                                isActive={isActive}
-                                handleActive={handleActive}
-                            />
-                        ))
-                    } */}
+                    <div className='mt-5'>
+                        {
+                            courseContent.map((section, index) => (
+                                <CourseAccordian 
+                                    section={section}
+                                    key={index}
+                                    isActive={isActive}
+                                    handleActive={handleActive}
+                                />
+                            ))
+                        }
+                    </div>
                 </div>
 
                 {/* Author Details  */}
