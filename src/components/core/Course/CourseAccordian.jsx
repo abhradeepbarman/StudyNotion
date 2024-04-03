@@ -29,8 +29,6 @@ function CourseAccordian({section, isActive, handleActive}) {
             duration += parseInt(sub.timeDuration)
         });
 
-        console.log("duratio...", duration);
-
         return duration
     }
 
