@@ -2,15 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { getEnrolledCourses } from '../../../services/operations/profileAPI'
 import { useSelector } from 'react-redux'
 import ProgressBar from "@ramonak/react-progress-bar"
+import { useNavigate } from 'react-router-dom'
 
 function EnrolledCourses() {
     
+    const navigate = useNavigate()
     const {token} = useSelector((state) => state.auth)
     const [enrolledCourses, setEnrolledCourses] = useState(null);
 
     async function fetchEnrolledCourses(token) {
         try {
             const response = await getEnrolledCourses(token)
+            console.log("enrolled course response", response);
             setEnrolledCourses(response);
         } 
         catch (error) {
@@ -30,7 +33,7 @@ function EnrolledCourses() {
             <div  className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
                 <div className='spinner'></div>
             </div>)
-            : !enrolledCourses.length ? (
+            : enrolledCourses.length === 0 ? (
                 <p className="grid h-[10vh] w-full place-content-center text-richblack-5">
                     You have not Enrolled in Any Course Yet
                 </p>
@@ -54,6 +57,10 @@ function EnrolledCourses() {
                              key={index}>
                                 <div
                                 className="flex w-[45%] cursor-pointer items-center gap-4 px-5 py-3"
+                                onClick={() => {
+                                    console.log(course)
+                                    navigate(`/view-course/${course?._id}/section/${course?.courseContent[0]?._id}/sub-section/${course?.courseContent?.[0]?.subsection?.[0]?._id}`)
+                                }}
                                 >
                                     <img src={course.thumbnail} alt=''
                                     className="h-14 w-14 rounded-lg object-cover"
