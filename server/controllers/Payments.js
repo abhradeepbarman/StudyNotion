@@ -6,7 +6,8 @@ const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail
 const mongoose = require("mongoose");
 const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail");
 require('dotenv').config()
-const crypto = require("crypto")
+const crypto = require("crypto");
+const CourseProgress = require("../models/CourseProgress");
 
 
 //initiate the razorpay order
@@ -145,10 +146,19 @@ const enrollStudent = async(courses, userId, res) => {
                 })
             }
 
+            const courseProgress = CourseProgress.create({
+                courseId: courseId,
+                userId: userId,
+                completedVideos: []
+            })
+
             //find the student & give him all the courses
             const enrolledStudent = await User.findByIdAndUpdate(
                 userId,
-                { $push : { courses: courseId } },
+                { $push : { 
+                    courses: courseId,
+                    courseProgress: courseProgress._id
+                } },
                 {new: true}
             )
 

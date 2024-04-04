@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { markLectureAsComplete } from '../../../services/operations/courseDetailsAPI'
 import { updateCompletedLectures } from '../../../store/slices/viewCourseSlice'
-import { Player } from 'video-react'
+import { BigPlayButton, Player } from 'video-react'
 import { FaPlay } from "react-icons/fa";
 import IconBtn from '../../common/IconBtn'
 
@@ -112,7 +112,7 @@ function VideoDetails() {
     }
     else {
       //next section ka first video me jaao
-      const nextSectionId = courseSectionData[currentSectionIndex + 1];
+      const nextSectionId = courseSectionData[currentSectionIndex + 1]._id;
       const nextSubsectionId = courseSectionData[currentSectionIndex + 1]?.subsection[0]._id
 
       //go to this video
@@ -152,7 +152,6 @@ function VideoDetails() {
   }
 
   const handleLectureCompletion = async() => {
-    //Pending - controller
 
     setLoading(true)
 
@@ -164,6 +163,7 @@ function VideoDetails() {
     //update in state
     if(res) {
       dispatch(updateCompletedLectures(subsectionId))
+      console.log("updated..", completedLectures);
     }
 
     setLoading(false)
@@ -185,7 +185,8 @@ function VideoDetails() {
               onEnded={() => setVideoEnded(true)}
               src={videoData?.videoUrl}
             >
-              <FaPlay position="center" />
+              {/* Play Button  */}
+              <BigPlayButton position="center" />
 
               {/* Render when video ends */}
               {

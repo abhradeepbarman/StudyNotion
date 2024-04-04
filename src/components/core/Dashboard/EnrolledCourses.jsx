@@ -26,7 +26,7 @@ function EnrolledCourses() {
     }, []);
 
   return (
-    <div className="text-3xl text-richblack-50">
+    <div className="text-xl text-richblack-50">
         <h1>Enrolled Courses</h1>
         {
             !enrolledCourses ? (
@@ -85,7 +85,7 @@ function EnrolledCourses() {
 
                                 <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
                                     <p>
-                                        Progress: {course.progressPercentage || 0}
+                                        Progress: {course.progressPercentage || 0}%
                                     </p>
 
                                     {/* progress bar  */}

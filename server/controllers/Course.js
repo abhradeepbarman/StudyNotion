@@ -380,6 +380,7 @@ exports.getFullCourseDetails = async (req, res) => {
     try {
       const {courseId}  = req.body
       const userId = req.user.id
+      
       const courseDetails = await Course.findOne({
         _id: courseId
       })
@@ -400,29 +401,38 @@ exports.getFullCourseDetails = async (req, res) => {
         .exec()
 
         console.log("Course Details....", courseDetails);
+
+        if (!courseDetails) {
+            return res.status(400).json({
+              success: false,
+              message: `Could not find course with id: ${courseId}`,
+            })
+          }
   
       let courseProgressCount = await CourseProgress.findOne({
-        courseID: courseId,
-        userId: userId,
+        courseId,
+        userId,
       })
   
       console.log("courseProgressCount : ", courseProgressCount)
-  
-      if (!courseDetails) {
-        return res.status(400).json({
-          success: false,
-          message: `Could not find course with id: ${courseId}`,
-          data: {
-            courseDetails,
-            CourseProgress
-          }
+
+
+    let totalDurationInSeconds = 0
+    courseDetails.courseContent.forEach((content) => {
+        content.subsection.forEach((subsection) => {
+            const timeDurationInSeconds = parseInt(subsection.timeDuration)
+            totalDurationInSeconds += timeDurationInSeconds
         })
-      }
+    })
+
+    const totalDuration = convertSecondsToDuration(totalDurationInSeconds)
+
   
       return res.status(200).json({
         success: true,
         data: {
           courseDetails,
+          totalDuration,
           completedVideos: courseProgressCount?.completedVideos
             ? courseProgressCount?.completedVideos
             : [],

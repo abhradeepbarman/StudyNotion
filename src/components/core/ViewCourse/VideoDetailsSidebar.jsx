@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { IoChevronBackCircleSharp } from "react-icons/io5";
+import { IoIosArrowBack } from "react-icons/io";
 import IconBtn from '../../common/IconBtn';
 import { IoIosArrowDown } from "react-icons/io";
+import { getFullDetailsOfCourse } from '../../../services/operations/courseDetailsAPI';
+import { setCompletedLectures, setCourseSectionData, setEntireCourseData, setTotalNoOfLectures } from '../../../store/slices/viewCourseSlice';
 
 function VideoDetailsSidebar({setReviewModal}) {
 
     const [activeStatus, setActiveStatus] = useState("")
     const [videoBarActive, setVideoBarActive] = useState("")
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const location = useLocation()
-    const {sectionId, subsectionId} = useParams()
+    const {courseId, sectionId, subsectionId} = useParams()
     const {
         courseSectionData,
         courseEntireData,
         totalNoOfLectures,
         completedLectures
     } = useSelector((state) => state.viewCourse)
+    const {token} = useSelector((state) => state.auth)
 
     useEffect(() => {
         ;(() => {
@@ -43,6 +47,24 @@ function VideoDetailsSidebar({setReviewModal}) {
         })()
     }, [courseSectionData, courseEntireData, location.pathname])
 
+    useEffect(() => {
+      const courseSpecificDetails = async() => {
+        const courseData = await getFullDetailsOfCourse(courseId, token)
+        console.log("course data......", courseData);
+        dispatch(setCourseSectionData(courseData.courseDetails.courseContent))
+        dispatch(setEntireCourseData(courseData?.courseDetails))
+        dispatch(setCompletedLectures(courseData?.completedVideos))
+
+        let lectures = 0
+        courseData?.courseDetails?.courseContent.forEach((section) => {
+            lectures += section.subsection.length
+        })
+
+        dispatch(setTotalNoOfLectures(lectures))
+    }
+    courseSpecificDetails()
+    }, [])
+
   return (
     <>
         <div className="flex h-[calc(100vh-3.5rem)] w-[320px] max-w-[350px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
@@ -52,10 +74,10 @@ function VideoDetailsSidebar({setReviewModal}) {
             <div className="flex w-full items-center justify-between ">
               <div
                 onClick={() => navigate("/dashboard/enrolled-courses")}
-                className="flex h-[35px] w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90"
+                className="flex h-[35px] w-[35px] items-center justify-center rounded-full bg-richblack-100 p-1 text-richblack-700 hover:scale-90 cursor-pointer"
                 title='back'
               >
-                <IoChevronBackCircleSharp size={30} />
+                <IoIosArrowBack size={30} />
               </div>
 
               <div >

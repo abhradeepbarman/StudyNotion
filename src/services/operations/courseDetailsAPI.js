@@ -361,7 +361,8 @@ export const markLectureAsComplete = async (data, token) => {
     }
     toast.success("Lecture Completed")
     result = true
-  } catch (error) {
+  }
+  catch (error) {
     console.log("MARK_LECTURE_AS_COMPLETE_API API ERROR............", error)
     toast.error(error.message)
     result = false

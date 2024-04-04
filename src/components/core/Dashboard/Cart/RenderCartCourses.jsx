@@ -16,6 +16,7 @@ function RenderCartCourses() {
         cart.map((course, index) => (
           <div
            className={`flex w-full flex-wrap items-start justify-between gap-6 ${ index !== cart.length - 1 && "border-b border-b-richblack-400 pb-6"} ${index !== 0 && "mt-6"} `}
+           key={index}
           >
             <div className="flex flex-1 flex-col gap-4 xl:flex-row">
               <img 

@@ -1,4 +1,5 @@
 import React from 'react'
+import "../App.css"
 import { Link } from 'react-router-dom'
 import { FaArrowRight } from "react-icons/fa";
 import HighlightText from '../components/core/HomePage/HighlightText';
@@ -10,6 +11,7 @@ import LearningLanguageSection from "../components/core/HomePage/LearningLanguag
 import InstructorSection from '../components/core/HomePage/InstructorSection';
 import ExploreMore from '../components/core/HomePage/ExploreMore';
 import Footer from "../components/common/Footer"
+import ReviewSlider from '../components/core/HomePage/ReviewSlider';
 
 function Home() {
   return (
@@ -207,6 +209,7 @@ function Home() {
           <h2 className='text-center text-4xl font-semibold mt-10'>Reviews from other learners</h2>
 
           {/* review slider here */}
+          <ReviewSlider />
 
       </div>
 
