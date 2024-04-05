@@ -9,6 +9,7 @@ import Stats from '../components/core/AboutPage/Stats'
 import LearningGrid from '../components/core/AboutPage/LearningGrid'
 import ContactFormSection from '../components/core/AboutPage/ContactFormSection'
 import Footer from "../components/common/Footer"
+import ReviewSlider from '../components/core/HomePage/ReviewSlider'
 
 function About() {
   return (
@@ -117,8 +118,11 @@ function About() {
 
         {/* section 6 */}
         <section>
-            <div>
-                {/* Review Slider */}              
+            <h2 className='text-center text-2xl md:text-4xl font-semibold mt-10'>Reviews from other learners</h2>
+
+            {/* review slider here */}
+            <div className='w-11/12 mx-auto'>
+                <ReviewSlider />
             </div>
         </section>
 

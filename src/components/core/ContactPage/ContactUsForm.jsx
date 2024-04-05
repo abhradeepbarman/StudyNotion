@@ -53,7 +53,7 @@ function ContactUsForm() {
         <div className="flex flex-col gap-5">
 
           {/* first name & last name */}
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-col md:flex-row gap-4">
               {/* first name  */}
               <div className='lg:w-[48%]'>
                 <label className="lable-style flex flex-col gap-1">

@@ -13,26 +13,26 @@ const timeLine = [
     },
     {
         Logo: Logo2,
-        heading: "Leadership",
-        Description: "Fully committed to the success of company" 
+        heading: "Responsibility",
+        Description: "Students will always be our top priority" 
     },
     {
         Logo: Logo3,
-        heading: "Leadership",
-        Description: "Fully committed to the success of company" 
+        heading: "Flexibility",
+        Description: "The ability to switch is an important skills" 
     },
     {
         Logo: Logo4,
-        heading: "Leadership",
-        Description: "Fully committed to the success of company" 
+        heading: "Solve the problem",
+        Description: "Code your way to a solution" 
     },
 ];
 
 function TimelineSection() {
   return (
     <div>
-        <div className='flex flex-row gap-14 items-center'>
-            <div className='w-[45%] flex flex-col gap-3'>
+        <div className='flex flex-col md:flex-row gap-14 items-center'>
+            <div className='w-full md:w-[45%] flex flex-col gap-3'>
                 {
                     timeLine.map((element, index) => {
                         return(
@@ -61,15 +61,15 @@ function TimelineSection() {
             </div>
 
             <div className='relative shadow-blue-200 z-20'>
-                <img src={timelineImage} alt='timeline' className='shadow-white object-cover h-fit' />
+                <img src={timelineImage} alt='timeline' className='shadow-white shadow-[20px_20px_0px_0px] object-cover h-[400px] lg:h-fit'/>
 
-                <div className='absolute bg-caribbeangreen-700 flex flex-row text-white uppercase py-7 left-[50%] translate-x-[-50%] translate-y-[-50%]'>
-                    <div className='flex flex-row gap-10 items-center  border-r border-caribbeangreen-300 px-7'>
+                <div className='absolute bg-caribbeangreen-700 flex flex-col md:flex-row gap-y-5 text-white uppercase py-7 left-[50%] translate-x-[-50%] translate-y-[-50%] w-[90%]'>
+                    <div className='flex flex-row gap-3 md:gap-10 items-center  md:border-r border-caribbeangreen-300 px-7'>
                         <p className='text-3xl font-bold'>10</p>
                         <p className='text-caribbeangreen-300 text-sm'>Years of Experience</p>
                     </div>
 
-                    <div className='flex flex-row gap-10 items-center px-7 '>
+                    <div className='flex flex-row gap-3 md:gap-10 items-center px-7 '>
                         <p className='text-3xl font-bold'>250</p>
                         <p className='text-caribbeangreen-300 text-sm'>TYPES OF COURSES</p>
                     </div>

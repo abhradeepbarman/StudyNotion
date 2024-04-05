@@ -33,7 +33,7 @@ function ExploreMore() {
 
         <p className=' text-center text-richblack-300 text-lg font-semibold mt-3'>Learn to Build Anything You Can Imagine</p>
 
-        <div className='mt-5 flex flex-row rounded-full bg-richblack-800 mb-5 border-b border-richblack-500 px-3 py-1 w-fit mx-auto'>
+        <div className='mt-5 hidden md:flex flex-row rounded-full bg-richblack-800 mb-5 border-b border-richblack-500 px-3 py-1 w-fit mx-auto'>
             {
                 tabsName.map((element, index) => {
                     return (
@@ -51,10 +51,10 @@ function ExploreMore() {
             }
         </div>
         
-        <div className='h-[150px]'></div>
+        <div className='h-[1000px] md:h-[150px]'></div>
 
         {/* course card group  */}
-        <div className='flex flex-row gap-x-10 absolute top-44 mt-5'>
+        <div className='flex flex-col md:flex-row gap-x-10 absolute top-44 mt-5'>
             {
                 courses.map((element, index) => {
                     return (

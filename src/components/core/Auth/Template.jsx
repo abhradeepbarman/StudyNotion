@@ -8,7 +8,7 @@ import {FcGoogle} from "react-icons/fc"
 const Template = ({title, desc1, desc2, image, formtype}) => {
 
   return (
-    <div className='flex justify-between w-11/12 max-w-[1160px] py-12 mx-auto gap-x-12 gap-y-0'>
+    <div className='flex flex-col-reverse md:flex-row justify-between w-11/12 max-w-[1160px] py-12 mx-auto gap-x-12 gap-y-5 md:gap-y-0'>
 
         <div className='w-11/12 max-w-[450px]' >
             <h1
@@ -43,7 +43,7 @@ const Template = ({title, desc1, desc2, image, formtype}) => {
 
         </div>
 
-        <div className='relative w-11/12 max-w-[450px] '>
+        <div className='relative w-11/12 max-w-[450px] mx-auto md:mx-0'>
             <img src={frameImage}
                 alt="Pattern"
                 width={558}

@@ -152,7 +152,7 @@ const Footer = () => {
 
       <div className="flex flex-row items-center justify-between w-11/12 max-w-maxContent text-richblack-400 mx-auto  pb-14 text-sm">
         {/* Section 1 */}
-        <div className="flex justify-between lg:items-start items-center flex-col lg:flex-row gap-3 w-full">
+        <div className="flex justify-between lg:items-start items-center flex-col lg:flex-row gap-5 md:gap-3 w-full">
           <div className="flex flex-row">
             {BottomFooter.map((ele, i) => {
               return (

@@ -2,13 +2,14 @@ const express = require("express")
 const router = express.Router()
 
 
-const { auth } = require("../middlewares/auth")
+const { auth, isInstructor } = require("../middlewares/auth")
 const {
   deleteAccount,
   updateProfile,
   getAllUserDetails,
   updateDisplayPicture,
   getEnrolledCourses,
+  instructorDashboard,
 } = require("../controllers/Profile")
 
 const {createContact} = require("../controllers/ContactUs")
@@ -16,7 +17,7 @@ const {createContact} = require("../controllers/ContactUs")
 // ********************************************************************************************************
 //                                      Profile routes
 // ********************************************************************************************************
-// Delet User Account
+// Delete User Account
 router.delete("/deleteProfile",auth, deleteAccount)
 router.put("/updateProfile", auth, updateProfile)
 router.get("/getUserDetails", auth, getAllUserDetails)
@@ -27,5 +28,8 @@ router.put("/updateDisplayPicture", auth, updateDisplayPicture)
 
 //contact form submission
 router.post("/contact", createContact)
+
+//instructor course data
+router.post("/instructorDashboard", auth, isInstructor, instructorDashboard)
 
 module.exports = router
