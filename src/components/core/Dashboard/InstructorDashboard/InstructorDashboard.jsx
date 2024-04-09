@@ -54,7 +54,7 @@ function InstructorDashboard() {
         </div> 
 
         {
-            loading ? (<div className='spinner'></div>)
+            loading ? (<div className='spinner mt-20 ml-5'></div>)
             : courses.length > 0 
             ? (<div>
                 <div className="my-4 flex h-[450px] space-x-4">
@@ -64,7 +64,7 @@ function InstructorDashboard() {
                             <InstructorChart courses={instructorData} />
                         )
                         : (
-                            <p className="mt-4 text-xl font-medium text-richblack-50">
+                            <p className="mt-4 text-xl font-medium text-richblack-50 min-w-[450px]">
                                 Not Enough Data to Visalize
                             </p>
                         )
